@@ -1,11 +1,36 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
+import Navbar from "./Navbar";
+import Sidebar from "./Sidebar";
 
 function MainLayout() {
+  const location = useLocation();
+
+  const sidebarRoutes = [
+    "/finder-dashboard",
+    "/report-found-item",
+    "/my-found-items",
+    "/suggested-matches",
+    "/messages",
+  ];
+
+  const showSidebar = sidebarRoutes.includes(location.pathname);
+
   return (
-    <div>
-      <h2>Navbar Placeholder</h2>
-      <hr />
-      <Outlet />
+    <div style={{ minHeight: "100vh", backgroundColor: "#f3f4f6" }}>
+      <Navbar />
+
+      <div style={{ display: "flex" }}>
+        {showSidebar && <Sidebar />}
+
+        <main
+          style={{
+            flex: 1,
+            padding: "24px",
+          }}
+        >
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }
