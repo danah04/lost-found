@@ -1,115 +1,75 @@
-import Button from "../../components/common/Button";
-import StatCard from "../../components/common/StatCard";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import "./publicPages.css";
 
-function LandingPage() {
+export default function LandingPage() {
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    window.location.href = "/sso-login";
+  };
+
+  const handleBrowse = () => {
+    navigate("/browse-listings");
+  };
+
   return (
-    <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-      
-      {/* Hero Section */}
-      <div
-        style={{
-          backgroundColor: "#ffffff",
-          borderRadius: "16px",
-          padding: "40px 24px",
-          textAlign: "center",
-          boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
-          marginBottom: "30px",
-        }}
-      >
-        <h1 style={{ fontSize: "32px", color: "#1f2a44", marginBottom: "12px" }}>
-          KFUPM Lost & Found
-        </h1>
+    <div className="public-page">
+      <header className="topbar">
+        <div className="brand">KFUPM Lost &amp; Found</div>
 
-        <p
-          style={{
-            color: "#4b5563",
-            maxWidth: "600px",
-            margin: "0 auto 24px",
-            fontSize: "16px",
-          }}
-        >
-          Report lost items, find what you’ve lost, and help others recover their belongings across KFUPM campus.
-        </p>
+        <nav className="topbar-links">
+          <button type="button" className="nav-link-btn">
+            Contact
+          </button>
+          <button type="button" className="nav-link-btn">
+            Help
+          </button>
+        </nav>
+      </header>
 
-        <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
-          <Button variant="primary">Login with KFUPM SSO</Button>
-          <Button variant="outline">Browse Listings</Button>
-        </div>
-      </div>
+      <main className="landing-main">
+        <section className="landing-card">
+          <div className="landing-inner-line" />
 
-      {/* Stats Section */}
-      <div
-        style={{
-          display: "flex",
-          gap: "16px",
-          justifyContent: "center",
-          flexWrap: "wrap",
-          marginBottom: "30px",
-        }}
-      >
-        <StatCard
-          title="Items Returned"
-          value="1,245"
-          subtitle="Recovered successfully"
-        />
-        <StatCard
-          title="Active Listings"
-          value="532"
-          subtitle="Currently available"
-        />
-        <StatCard
-          title="Users Helped"
-          value="980"
-          subtitle="Happy students"
-        />
-      </div>
+          <h1 className="landing-title">Welcome to KFUPM Lost &amp; Found</h1>
 
-      {/* How it works */}
-      <div
-        style={{
-          backgroundColor: "#ffffff",
-          borderRadius: "16px",
-          padding: "30px",
-          boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
-        }}
-      >
-        <h2 style={{ textAlign: "center", marginBottom: "24px", color: "#1f2a44" }}>
-          How it works
-        </h2>
+          <p className="landing-subtitle">
+            Your central hub for reporting and recovering lost and found items
+            within the KFUPM campus. Connecting the community to help reunite
+            owners with their belongings.
+          </p>
 
-        <div
-          style={{
-            display: "flex",
-            gap: "20px",
-            flexWrap: "wrap",
-            justifyContent: "center",
-          }}
-        >
-          <div style={{ maxWidth: "250px", textAlign: "center" }}>
-            <h3 style={{ color: "#111827" }}>1. Report</h3>
-            <p style={{ color: "#6b7280" }}>
-              Submit details about lost or found items easily.
-            </p>
+          <div className="landing-actions">
+            <button className="primary-btn" onClick={handleLogin}>
+              Login with KFUPM SSO
+            </button>
+
+            <button className="secondary-btn" onClick={handleBrowse}>
+              Browse Listings
+            </button>
           </div>
 
-          <div style={{ maxWidth: "250px", textAlign: "center" }}>
-            <h3 style={{ color: "#111827" }}>2. Match</h3>
-            <p style={{ color: "#6b7280" }}>
-              System suggests possible matches automatically.
-            </p>
-          </div>
+          <div className="stats-row">
+            <div className="stat-box">
+              <p className="stat-label">Items Returned</p>
+              <h2 className="stat-number">1,234</h2>
+            </div>
 
-          <div style={{ maxWidth: "250px", textAlign: "center" }}>
-            <h3 style={{ color: "#111827" }}>3. Recover</h3>
-            <p style={{ color: "#6b7280" }}>
-              Connect and return items to their owners safely.
-            </p>
+            <div className="stat-box">
+              <p className="stat-label">Active Listings</p>
+              <h2 className="stat-number">567</h2>
+            </div>
           </div>
-        </div>
-      </div>
+        </section>
+      </main>
 
+      <footer className="footer">
+        <span>Contact Us</span>
+        <span>Help Center</span>
+        <span>Privacy Policy</span>
+        <span>© 2026 KFUPM Lost &amp; Found. All rights reserved.</span>
+      </footer>
     </div>
   );
 }
-
-export default LandingPage;
