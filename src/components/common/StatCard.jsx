@@ -10,13 +10,24 @@ function StatCard({ title, value, subtitle }) {
         minWidth: "180px",
       }}
     >
-      <h4 style={{ margin: 0, fontSize: "16px", color: "#374151" }}>{title}</h4>
-      <p style={{ fontSize: "28px", fontWeight: "700", margin: "10px 0", color: "#111827" }}>
+      <h4 style={{ margin: 0, fontSize: "16px", color: "#374151" }}>
+        {title}
+      </h4>
+
+      <p
+        style={{
+          fontSize: "28px",
+          fontWeight: "700",
+          margin: "10px 0",
+          color: "#111827",
+        }}
+      >
         {value}
       </p>
-      {subtitle && (
-        <p style={{ margin: 0, fontSize: "13px", color: "#6b7280" }}>{subtitle}</p>
-      )}
+
+      <p style={{ fontSize: "14px", color: "#6b7280" }}>
+        {subtitle}
+      </p>
     </div>
   );
 }
