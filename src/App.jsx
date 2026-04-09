@@ -1,27 +1,30 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LandingPage from "./public/LandingPage";
-import AuthFailedPage from "./public/AuthFailedPage";
-import AccessDeniedPage from "./public/AccessDeniedPage";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-function BrowseListingsPage() {
-  return (
-    <div style={{ padding: "40px", textAlign: "center" }}>
-      <h1>Browse Listings Page</h1>
-      <p>This page will contain public lost/found listings.</p>
-    </div>
-  );
-}
+// Public Pages
+import LandingPage from "./pages/public/LandingPage";
+import AccessDeniedPage from "./pages/public/AccessDeniedPage";
+import AuthFailedPage from "./pages/public/AuthFailedPage";
 
-export default function App() {
+// Finder
+import FinderDashboard from "./pages/finder/FinderDashboard";
+
+function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
+
+        {/* Public */}
         <Route path="/" element={<LandingPage />} />
-        <Route path="/auth-failed" element={<AuthFailedPage />} />
         <Route path="/access-denied" element={<AccessDeniedPage />} />
-        <Route path="/browse-listings" element={<BrowseListingsPage />} />
+        <Route path="/auth-failed" element={<AuthFailedPage />} />
+
+        {/* Finder */}
+        <Route path="/finder/dashboard" element={<FinderDashboard />} />
+
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
+
+export default App;

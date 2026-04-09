@@ -1,6 +1,6 @@
 import React from "react";
 import FinderLayout from "../../components/layout/FinderLayout";
-import StatsCard from "../../components/common/StatsCard";
+import StatsCard from "../../components/common/StatCard";
 import ActionButton from "../../components/common/ActionButton";
 import { Link } from "react-router-dom";
 
