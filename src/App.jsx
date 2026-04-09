@@ -1,5 +1,4 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 // Public Pages
 import LandingPage from "./pages/public/LandingPage";
@@ -9,22 +8,20 @@ import AuthFailedPage from "./pages/public/AuthFailedPage";
 // Finder
 import FinderDashboard from "./pages/finder/FinderDashboard";
 
-function App() {
+export default function App() {
   return (
-    <Router>
-      <Routes>
+    <Routes>
 
-        {/* Public */}
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/access-denied" element={<AccessDeniedPage />} />
-        <Route path="/auth-failed" element={<AuthFailedPage />} />
+      
+      <Route path="/" element={<LandingPage />} />
 
-        {/* Finder */}
-        <Route path="/finder/dashboard" element={<FinderDashboard />} />
+      
+      <Route path="/access-denied" element={<AccessDeniedPage />} />
+      <Route path="/auth-failed" element={<AuthFailedPage />} />
 
-      </Routes>
-    </Router>
+      {/* Finder Dashboard */}
+      <Route path="/finder/dashboard" element={<FinderDashboard />} />
+
+    </Routes>
   );
 }
-
-export default App;
