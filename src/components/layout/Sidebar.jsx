@@ -2,11 +2,10 @@ import { Link } from "react-router-dom";
 
 function Sidebar() {
   const links = [
-    { path: "/finder-dashboard", label: "Dashboard" },
-    { path: "/report-found-item", label: "Report Found Item" },
-    { path: "/my-found-items", label: "My Found Items" },
-    { path: "/suggested-matches", label: "Suggested Matches" },
-    { path: "/messages", label: "Messages" },
+    { path: "/finder/dashboard", label: "Dashboard" },
+    { path: "/owner/browse-items", label: "Browse Found Items" },
+    { path: "/owner/messages", label: "Messages" },
+    { path: "/owner/notifications", label: "Notifications" },
   ];
 
   return (
@@ -15,8 +14,9 @@ function Sidebar() {
         width: "220px",
         backgroundColor: "#374151",
         color: "#ffffff",
-        minHeight: "calc(100vh - 64px)",
+        minHeight: "100vh",
         padding: "20px 16px",
+        boxSizing: "border-box",
       }}
     >
       <h3 style={{ marginTop: 0, fontSize: "18px" }}>Finder Panel</h3>

@@ -10,7 +10,7 @@ export default function LandingPage() {
   };
 
   const handleBrowse = () => {
-    navigate("/browse-listings");
+    navigate("/owner/browse-items");
   };
 
   return (
