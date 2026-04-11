@@ -11,19 +11,11 @@ import ItemDetailsPage from "../pages/owner/ItemDetailsPage";
 import ClaimItemPage from "../pages/owner/ClaimItemPage";
 import MessagesPage from "../pages/owner/MessagesPage";
 import NotificationsPage from "../pages/owner/NotificationsPage";
-import ModeratorDashboard from "../pages/moderator/ModeratorDashboard";
-import ReviewPage from "../pages/moderator/ReviewPage";
-import VerificationPage from "../pages/moderator/VerificationPage";
-import ReportsPage from "../pages/moderator/ReportsPage";
-import ReturnPage from "../pages/moderator/ReturnPage";
-import MyFoundItemsPage from "../pages/moderator/MyFoundItemsPage";
-import MatchesPage from "../pages/moderator/MatchesPage";
-import PostLostItem from "../pages/owner/PostLostItem";
 
 import FinderDashboard from "../pages/finder/FinderDashboard";
 import PostFoundItem from "../pages/finder/PostFoundItem";
-import MyFoundItemsPage from "../pages/finder/MyFoundItemsPage";
-import MatchesPage from "../pages/finder/MatchesPage";
+import FinderMyFoundItemsPage from "../pages/finder/MyFoundItemsPage";
+import FinderMatchesPage from "../pages/finder/MatchesPage";
 
 import ModeratorDashboard from "../pages/moderator/ModeratorDashboard";
 import ReviewPage from "../pages/moderator/ReviewPage";
@@ -32,7 +24,6 @@ import ReportsPage from "../pages/moderator/ReportsPage";
 import ReturnPage from "../pages/moderator/ReturnPage";
 
 import NotFoundPage from "../pages/shared/NotFoundPage";
-
 import RoleRoute from "./RoleRoute";
 
 function AppRouter() {
@@ -41,6 +32,7 @@ function AppRouter() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
+      <Route path="/sso-login" element={<LoginRedirect />} />
       <Route path="/access-denied" element={<AccessDeniedPage />} />
       <Route path="/auth-failed" element={<AuthFailedPage />} />
 
@@ -57,7 +49,6 @@ function AppRouter() {
       <Route path="/owner/claim/:id" element={<ClaimItemPage />} />
       <Route path="/owner/messages" element={<MessagesPage />} />
       <Route path="/owner/notifications" element={<NotificationsPage />} />
-      <Route path="/owner/report-lost" element={<PostLostItem />} />
 
       <Route
         path="/finder/dashboard"
@@ -68,8 +59,11 @@ function AppRouter() {
         }
       />
       <Route path="/finder/report" element={<PostFoundItem />} />
-      <Route path="/finder/my-found-items" element={<MyFoundItemsPage />} />
-      <Route path="/finder/matches" element={<MatchesPage />} />
+      <Route
+        path="/finder/my-found-items"
+        element={<FinderMyFoundItemsPage />}
+      />
+      <Route path="/finder/matches" element={<FinderMatchesPage />} />
 
       <Route
         path="/moderator/dashboard"
@@ -83,7 +77,7 @@ function AppRouter() {
       <Route path="/moderator/verification" element={<VerificationPage />} />
       <Route path="/moderator/reports" element={<ReportsPage />} />
       <Route path="/moderator/return" element={<ReturnPage />} />
-      <Route path="/sso-login" element={<LoginRedirect />} />
+
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
