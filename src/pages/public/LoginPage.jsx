@@ -1,18 +1,29 @@
 import React from "react";
+import "./publicPages.css";
 
 export default function LoginPage() {
   return (
-    <div>
-      <h1>Login</h1>
-      <p>Sign in to your account</p>
+    <div className="public-page">
+      <div className="landing-card">
+        <h1 className="landing-title">Login</h1>
+        <p className="landing-subtitle">Sign in to your account</p>
 
-      <form>
-        <input type="email" placeholder="Email" />
-        <br />
-        <input type="password" placeholder="Password" />
-        <br />
-        <button type="submit">Login</button>
-      </form>
+        <form className="landing-actions">
+          <input
+            type="email"
+            placeholder="Email"
+            className="input-field"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="input-field"
+          />
+          <button type="submit" className="primary-btn">
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

@@ -6,7 +6,7 @@ export default function LandingPage() {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    navigate("/sso-login");
+    navigate("/login");
   };
 
   const handleBrowse = () => {
