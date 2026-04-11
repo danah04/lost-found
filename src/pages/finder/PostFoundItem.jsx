@@ -15,6 +15,7 @@ function PostFoundItem() {
     if (!form.name || !form.location || !form.date) {
       alert("Please fill required fields");
       return;
+      
     }
 
     try {
