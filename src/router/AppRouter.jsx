@@ -11,6 +11,13 @@ import ItemDetailsPage from "../pages/owner/ItemDetailsPage";
 import ClaimItemPage from "../pages/owner/ClaimItemPage";
 import MessagesPage from "../pages/owner/MessagesPage";
 import NotificationsPage from "../pages/owner/NotificationsPage";
+import ModeratorDashboard from "../pages/moderator/ModeratorDashboard";
+import ReviewPage from "../pages/moderator/ReviewPage";
+import VerificationPage from "../pages/moderator/VerificationPage";
+import ReportsPage from "../pages/moderator/ReportsPage";
+import ReturnPage from "../pages/moderator/ReturnPage";
+import MyFoundItemsPage from "../pages/moderator/MyFoundItemsPage";
+import MatchesPage from "../pages/moderator/MatchesPage";
 import PostLostItem from "../pages/owner/PostLostItem";
 
 import FinderDashboard from "../pages/finder/FinderDashboard";

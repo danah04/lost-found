@@ -35,4 +35,10 @@ function Navbar() {
   );
 }
 
+const linkStyle = {
+  color: "#ffffff",
+  textDecoration: "none",
+  fontSize: "14px",
+};
+
 export default Navbar;
