@@ -6,11 +6,10 @@ function MainLayout() {
   const location = useLocation();
 
   const sidebarRoutes = [
-    "/finder-dashboard",
-    "/report-found-item",
-    "/my-found-items",
-    "/suggested-matches",
-    "/messages",
+    "/finder/dashboard",
+    "/owner/browse-items",
+    "/owner/messages",
+    "/owner/notifications",
   ];
 
   const showSidebar = sidebarRoutes.includes(location.pathname);

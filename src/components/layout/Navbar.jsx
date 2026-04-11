@@ -18,11 +18,17 @@ function Navbar() {
         <Link to="/" style={{ color: "#ffffff", textDecoration: "none" }}>
           Home
         </Link>
-        <Link to="/finder-dashboard" style={{ color: "#ffffff", textDecoration: "none" }}>
+        <Link
+          to="/finder/dashboard"
+          style={{ color: "#ffffff", textDecoration: "none" }}
+        >
           Finder Dashboard
         </Link>
-        <Link to="/shared-test" style={{ color: "#ffffff", textDecoration: "none" }}>
-          Shared Test
+        <Link
+          to="/owner/browse-items"
+          style={{ color: "#ffffff", textDecoration: "none" }}
+        >
+          Browse Items
         </Link>
       </div>
     </nav>
