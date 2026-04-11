@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import LandingPage from "../pages/public/LandingPage";
 import AccessDeniedPage from "../pages/public/AccessDeniedPage";
 import AuthFailedPage from "../pages/public/AuthFailedPage";
+import LoginRedirect from "../pages/public/LoginRedirect";
 
 import OwnerDashboard from "../pages/owner/OwnerDashboard";
 import BrowseItemsPage from "../pages/owner/BrowseItemsPage";
@@ -75,7 +76,7 @@ function AppRouter() {
       <Route path="/moderator/verification" element={<VerificationPage />} />
       <Route path="/moderator/reports" element={<ReportsPage />} />
       <Route path="/moderator/return" element={<ReturnPage />} />
-
+      <Route path="/sso-login" element={<LoginRedirect />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

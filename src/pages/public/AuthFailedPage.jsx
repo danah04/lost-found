@@ -3,11 +3,9 @@ import { useNavigate } from "react-router-dom";
 import "./publicPages.css";
 
 export default function AuthFailedPage() {
-  const navigate = useNavigate();
 
-  const retryLogin = () => {
-    window.location.href = "/sso-login";
-  };
+  const navigate = useNavigate();
+  navigate("/sso-login");
 
   return (
     <div className="state-page-wrapper">
