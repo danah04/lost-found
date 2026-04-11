@@ -1,20 +1,10 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
-function RoleRoute({ allowedRole }) {
-  const user = {
-    isAuthenticated: true,
-    role: "owner",
-  };
+const RoleRoute = ({ allowedRole, userRole, children }) => {
+  if (!userRole) return <Navigate to="/auth-failed" />;
+  if (userRole !== allowedRole) return <Navigate to="/access-denied" />;
 
-  if (!user.isAuthenticated) {
-    return <Navigate to="/" replace />;
-  }
-
-  if (user.role !== allowedRole) {
-    return <Navigate to="/access-denied" replace />;
-  }
-
-  return <Outlet />;
-}
+  return children;
+};
 
 export default RoleRoute;
