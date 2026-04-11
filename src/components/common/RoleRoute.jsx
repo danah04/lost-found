@@ -3,7 +3,7 @@ import { Navigate, Outlet } from "react-router-dom";
 function RoleRoute({ allowedRole }) {
   const user = {
     isAuthenticated: true,
-    role: "owner",
+    role: "moderator",
   };
 
   if (!user.isAuthenticated) {
