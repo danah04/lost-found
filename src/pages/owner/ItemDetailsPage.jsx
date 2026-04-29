@@ -1,41 +1,38 @@
 import { Link, useParams } from "react-router-dom";
-import { mockItems } from "../../data/mockItems";
+import AppLayout from "../../components/layout/AppLayout";
+import { foundItems } from "../../data/mockData";
 
-function ItemDetailsPage() {
+export default function ItemDetailsPage() {
   const { id } = useParams();
-  const item = mockItems.find((entry) => String(entry.id) === id);
-
-  if (!item) {
-    return <h1>Item not found</h1>;
-  }
+  const item = foundItems.find((i) => i.id === id) || foundItems[0];
 
   return (
-    <div style={{ padding: "1rem" }}>
-      <h1>{item.title}</h1>
+    <AppLayout role="owner">
+      <section className="page">
+        <div className="page-header">
+          <div>
+            <h1>Found Item Details</h1>
+            <p>Review the details carefully before submitting a claim or contacting the finder.</p>
+          </div>
+        </div>
 
-      <img
-        src={item.image}
-        alt={item.title}
-        style={{
-          width: "100%",
-          maxWidth: "500px",
-          borderRadius: "10px",
-          marginBottom: "1rem",
-        }}
-      />
-
-      <p><strong>Category:</strong> {item.category}</p>
-      <p><strong>Description:</strong> {item.description}</p>
-      <p><strong>Location:</strong> {item.location}</p>
-      <p><strong>Date Found:</strong> {item.date}</p>
-      <p><strong>Status:</strong> {item.status}</p>
-
-      <div style={{ marginTop: "1rem", display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-        <Link to={`/owner/claim/${item.id}`}>Claim Item</Link>
-        <Link to="/owner/messages">Contact Finder</Link>
-      </div>
-    </div>
+        <div className="grid grid-2">
+          <div className="detail-image"><img src={item.imageUrl} alt={item.title} /></div>
+          <div className="card">
+            <h2>{item.title}</h2>
+            <p><strong>Description:</strong> {item.description}</p>
+            <p><strong>Category:</strong> {item.category}</p>
+            <p><strong>Location:</strong> {item.location}</p>
+            <p><strong>Date found:</strong> {item.date} {item.time}</p>
+            <p><strong>Status:</strong> <span className="badge warning">{item.status}</span></p>
+            <div className="actions">
+              <Link className="btn btn-primary" to={`/owner/claim/${item.id}`}>Claim Item</Link>
+              <Link className="btn btn-secondary" to="/owner/messages">Contact Finder</Link>
+              <Link className="btn btn-outline" to="/owner/browse-items">Back to Browse</Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    </AppLayout>
   );
 }
-
-export default ItemDetailsPage;

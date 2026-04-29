@@ -1,106 +1,109 @@
-import { useState } from "react";
-import "./PostLostItem.css";
+import { useEffect, useState } from "react";
+import AppLayout from "../../components/layout/AppLayout";
+import FormInput from "../../components/common/FormInput";
+import { categories, locations } from "../../data/mockData";
 
-function PostLostItem() {
-  const [form, setForm] = useState({
-    name: "",
-    description: "",
-    location: "",
-    date: ""
-  });
+const initial = { title: "", category: "", description: "", location: "", date: "", time: "", image: null };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+export default function PostLostItem() {
+  const [form, setForm] = useState(initial);
+  const [errors, setErrors] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+  const [preview, setPreview] = useState("");
 
-    // Validation
-    if (!form.name || !form.location || !form.date) {
-      alert("Please fill required fields");
+  useEffect(() => {
+    if (!form.image) {
+      setPreview("");
       return;
     }
+    const url = URL.createObjectURL(form.image);
+    setPreview(url);
+    return () => URL.revokeObjectURL(url);
+  }, [form.image]);
 
-    try {
-      const res = await fetch("http://localhost:3000/lost-item", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(form)
-      });
+  function set(key, value) {
+    setForm((current) => ({ ...current, [key]: value }));
+  }
 
-      const data = await res.json();
+  function validateImage(file) {
+    if (!file) return "";
+    if (!["image/jpeg", "image/png"].includes(file.type)) return "Image must be JPG or PNG";
+    if (file.size > 5 * 1024 * 1024) return "Image must be under 5MB";
+    return "";
+  }
 
-      if (data.ok) {
-        alert("Listing submitted ✅");
-
-        // reset form
-        setForm({
-          name: "",
-          description: "",
-          location: "",
-          date: ""
-        });
-      } else {
-        alert(data.msg);
-      }
-    } catch (err) {
-      alert("Server error");
+  function submit(e) {
+    e.preventDefault();
+    const err = {};
+    if (!form.title.trim()) err.title = "Title is required";
+    if (!form.category) err.category = "Choose a category";
+    if (!form.description.trim()) err.description = "Description is required";
+    if (!form.location) err.location = "Choose a location";
+    if (!form.date) err.date = "Date is required";
+    else if (new Date(form.date) > new Date()) err.date = "Date cannot be in the future";
+    const imageError = validateImage(form.image);
+    if (imageError) err.image = imageError;
+    setErrors(err);
+    if (Object.keys(err).length === 0) {
+      setSubmitted(true);
+      setForm(initial);
     }
-  };
+  }
 
   return (
-    <div className="form-container">
-      <h2 className="form-title">Post Lost Item</h2>
-
-      <form onSubmit={handleSubmit}>
-        
-        <div className="form-group">
-          <label>Item Name *</label>
-          <input
-            placeholder="Enter item name"
-            value={form.name}
-            onChange={(e) =>
-              setForm({ ...form, name: e.target.value })
-            }
-          />
+    <AppLayout role="owner">
+      <section className="page">
+        <div className="page-header">
+          <div>
+            <h1>Report Lost Item</h1>
+            <p>Submit a detailed report so finders and moderators can help recover the item.</p>
+          </div>
         </div>
 
-        <div className="form-group">
-          <label>Location *</label>
-          <input
-            placeholder="Enter location"
-            value={form.location}
-            onChange={(e) =>
-              setForm({ ...form, location: e.target.value })
-            }
-          />
-        </div>
+        {submitted && <div className="success-banner" style={{ marginBottom: 16 }}>Lost item report submitted successfully.</div>}
 
-        <div className="form-group">
-          <label>Date *</label>
-          <input
-            type="date"
-            value={form.date}
-            onChange={(e) =>
-              setForm({ ...form, date: e.target.value })
-            }
-          />
-        </div>
+        <form className="card form" onSubmit={submit}>
+          <div className="form-grid">
+            <FormInput label="Title" required error={errors.title} value={form.title} onChange={(e) => set("title", e.target.value)} placeholder="e.g., KFUPM ID Card, Blue Backpack" />
+            <FormInput label="Category" required error={errors.category}>
+              <select value={form.category} onChange={(e) => set("category", e.target.value)}>
+                <option value="">Select category</option>
+                {categories.map((c) => <option key={c}>{c}</option>)}
+              </select>
+            </FormInput>
+          </div>
 
-        <div className="form-group">
-          <label>Description</label>
-          <textarea
-            placeholder="Enter description (optional)"
-            value={form.description}
-            onChange={(e) =>
-              setForm({ ...form, description: e.target.value })
-            }
-          />
-        </div>
+          <FormInput label="Description" required as="textarea" error={errors.description} value={form.description} onChange={(e) => set("description", e.target.value)} placeholder="Include unique features, contents, serial numbers, marks, or stickers." />
 
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+          <div className="form-grid">
+            <FormInput label="Last Seen Location" required error={errors.location}>
+              <select value={form.location} onChange={(e) => set("location", e.target.value)}>
+                <option value="">Select campus location</option>
+                {locations.map((l) => <option key={l}>{l}</option>)}
+              </select>
+            </FormInput>
+            <FormInput label="Date" type="date" required error={errors.date} value={form.date} onChange={(e) => set("date", e.target.value)} />
+          </div>
+
+          <div className="form-grid">
+            <FormInput label="Approximate Time" type="time" value={form.time} onChange={(e) => set("time", e.target.value)} />
+            <div className="field">
+              <label>Image Upload <span className="muted">optional</span></label>
+              <input type="file" accept="image/png,image/jpeg" onChange={(e) => set("image", e.target.files?.[0] || null)} />
+              {errors.image && <span className="error-text">{errors.image}</span>}
+            </div>
+          </div>
+
+          <div className="upload-preview">
+            {preview ? <img src={preview} alt="Selected item preview" /> : <span>Selected image preview will appear here</span>}
+          </div>
+
+          <div className="actions">
+            <button className="btn btn-primary" type="submit">Submit Report</button>
+            <button className="btn btn-secondary" type="button" onClick={() => { setForm(initial); setErrors({}); }}>Clear</button>
+          </div>
+        </form>
+      </section>
+    </AppLayout>
   );
 }
-
-export default PostLostItem;
