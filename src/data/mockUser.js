@@ -1,5 +1,5 @@
 export const mockUser = {
   isAuthenticated: true,
-  role: "owner",
+  role: "moderator",
   name: "Test User",
 };

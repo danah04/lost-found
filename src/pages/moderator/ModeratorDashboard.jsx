@@ -1,5 +1,2 @@
-function ModeratorDashboard() {
-  return <h1>Moderator Dashboard</h1>;
-}
-
-export default ModeratorDashboard;
+import { Link } from "react-router-dom";import AppLayout from "../../components/layout/AppLayout";import { foundItems,claims,reports } from "../../data/mockData";
+export default function ModeratorDashboard(){return <AppLayout role="moderator"><section className="page"><div className="page-header"><div><h1>Moderator Dashboard</h1><p>Review pending listings, reports, ownership claims, and return confirmations.</p></div></div><div className="grid grid-4"><div className="card stat"><span className="muted">Pending Listings</span><strong>{foundItems.filter(i=>i.status.includes("Pending")).length+3}</strong></div><div className="card stat"><span className="muted">Open Reports</span><strong>{reports.filter(r=>r.status==="Open").length}</strong></div><div className="card stat"><span className="muted">Ownership Claims</span><strong>{claims.length}</strong></div><div className="card stat"><span className="muted">Return Confirmations</span><strong>3</strong></div></div><div className="card" style={{marginTop:16}}><h2>Quick Actions</h2><div className="actions"><Link className="btn btn-primary" to="/moderator/pending-listings">Review Pending Listings</Link><Link className="btn btn-secondary" to="/moderator/reports">Manage Reports</Link><Link className="btn btn-secondary" to="/moderator/verification">Verify Ownership</Link><Link className="btn btn-secondary" to="/moderator/return-confirmation">Confirm Returns</Link></div></div></section></AppLayout>}

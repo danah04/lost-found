@@ -1,8 +1,20 @@
 import React from "react";
 
-const ActionButton = ({ label }) => {
+const ActionButton = ({ label, onClick }) => {
   return (
-    <button className="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800">
+    <button
+      onClick={onClick}
+      style={{
+        backgroundColor: "#374151",
+        color: "#ffffff",
+        padding: "10px 16px",
+        border: "none",
+        borderRadius: "8px",
+        cursor: "pointer",
+        fontSize: "14px",
+        fontWeight: "500",
+      }}
+    >
       {label}
     </button>
   );

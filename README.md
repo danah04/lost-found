@@ -1,39 +1,100 @@
-# React + Vite
+# KFUPM Lost & Found Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive React frontend for a campus Lost & Found system. The app includes separate flows for item owners, item finders, and moderators.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Item Owner
+- Report a lost item with validation.
+- Upload and preview a JPG/PNG image.
+- Browse and filter found items.
+- View found-item details.
+- Submit ownership claims.
+- View messages and notifications.
 
-## React Compiler
+### Item Finder
+- Report a found item with image upload and preview.
+- View submitted found items.
+- Review suggested lost-item matches.
+- Update item status.
+- View messages and notifications.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# KFUPM Lost & Found System (Frontend)
-
-A React front-end prototype for the KFUPM Lost & Found web application.
+### Moderator
+- Review pending lost/found listings.
+- Approve, reject, or request clarification.
+- Edit listings.
+- Archive or remove listings.
+- Review reports.
+- Verify ownership claims.
+- Confirm returned items.
+- View active listings.
 
 ## Tech Stack
+
 - React
 - Vite
 - React Router
+- Plain CSS
 
-## Setup Instructions
-1. Clone the repository
-2. Run `npm install`
-3. Run `npm run dev`
+## Setup
 
-## Project Structure
-- `src/components` - reusable UI and layout components
-- `src/pages` - application pages
-- `src/router` - route configuration
-- `src/data` - mock data
-- `src/assets` - images and static files
+```bash
+npm install
+npm run dev
+```
 
-## Notes
-This project is a front-end prototype for SWE363 Milestone 4.
+Open the local Vite URL shown in the terminal.
+
+## Login
+
+The frontend currently uses a role selector instead of real KFUPM SSO. Choose one of the three roles on the login page:
+
+- Item Owner
+- Item Finder
+- Moderator
+
+This stores a mock user in `localStorage` so the role-specific pages can be tested.
+
+## Adding Pictures
+
+The sample listing pictures are stored in:
+
+```txt
+public/images/
+```
+
+To add a new picture:
+
+1. Put the image file in `public/images/`, for example:
+
+```txt
+public/images/wallet.jpg
+```
+
+2. Add the image path to the item in `src/data/mockData.js`:
+
+```js
+{
+  id: "f-1007",
+  title: "Brown Wallet",
+  imageUrl: "/images/wallet.jpg"
+}
+```
+
+3. Use JPG, PNG, SVG, or WebP images. The report forms already support JPG/PNG upload preview.
+
+## Important Files
+
+```txt
+src/App.jsx                    Main routes
+src/index.css                  Global styling and responsive layout
+src/data/mockData.js           Mock lost/found data
+src/pages/owner/               Owner pages
+src/pages/finder/              Finder pages
+src/pages/moderator/           Moderator pages
+public/images/                 Static listing images
+```
+
+## Backend Status
+
+Backend integration is intentionally not included in this frontend pass. The current app uses mock data and local UI state only.
