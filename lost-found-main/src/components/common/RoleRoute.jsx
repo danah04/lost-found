@@ -1,0 +1,1 @@
+import { Navigate } from "react-router-dom";export default function RoleRoute({allowedRoles,children}){const user=JSON.parse(localStorage.getItem("lfUser")||"null");if(!user)return <Navigate to="/login" replace/>;if(!allowedRoles.includes(user.role))return <Navigate to="/access-denied" replace/>;return children;}
