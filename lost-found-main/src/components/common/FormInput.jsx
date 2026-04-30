@@ -1,0 +1,1 @@
+export default function FormInput({label,required,error,as="input",children,...props}){const Component=as;return <div className="field"><label>{label} {required&&<span className="required">*</span>}</label>{children||<Component {...props}/>} {error&&<span className="error-text">{error}</span>}</div>}

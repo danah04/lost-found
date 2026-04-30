@@ -1,0 +1,32 @@
+export const mockItems = [
+  {
+    id: 1,
+    title: "Black Wallet",
+    category: "Accessories",
+    description: "Black leather wallet with student ID inside.",
+    location: "Library",
+    date: "2025-10-20",
+    image: "https://via.placeholder.com/300x200?text=Black+Wallet",
+    status: "Found",
+  },
+  {
+    id: 2,
+    title: "Silver Laptop",
+    category: "Electronics",
+    description: "Silver laptop found near classroom building.",
+    location: "Building 58",
+    date: "2025-10-18",
+    image: "https://via.placeholder.com/300x200?text=Silver+Laptop",
+    status: "Found",
+  },
+  {
+    id: 3,
+    title: "Water Bottle",
+    category: "Personal Items",
+    description: "Blue reusable bottle with stickers.",
+    location: "Gym",
+    date: "2025-10-17",
+    image: "https://via.placeholder.com/300x200?text=Water+Bottle",
+    status: "Found",
+  },
+];

@@ -1,7 +1,3 @@
-
-import React from "react";
-import "./publicPages.css";
-
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/layout/Navbar";
 
@@ -10,7 +6,6 @@ const roles = [
   { role: "finder", title: "Item Finder", description: "Report found items, manage your listings, update item status, and review matches." },
   { role: "moderator", title: "Moderator", description: "Review listings, handle reports, verify claims, and confirm returned items." },
 ];
-
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -21,29 +16,6 @@ export default function LoginPage() {
   }
 
   return (
-
-    <div className="public-page">
-      <div className="landing-card">
-        <h1 className="landing-title">Login</h1>
-        <p className="landing-subtitle">Sign in to your account</p>
-
-        <form className="landing-actions">
-          <input
-            type="email"
-            placeholder="Email"
-            className="input-field"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            className="input-field"
-          />
-          <button type="submit" className="primary-btn">
-            Login
-          </button>
-        </form>
-      </div>
-
     <div className="app-shell">
       <Navbar />
       <main className="content">
@@ -66,7 +38,6 @@ export default function LoginPage() {
           </div>
         </section>
       </main>
-
     </div>
   );
 }
