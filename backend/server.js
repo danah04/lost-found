@@ -5,6 +5,11 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const finderRoutes = require("./routes/finderRoutes");
+const itemRoutes = require("./items/itemRoutes");
+const messageRoutes = require("./messaging/messageRoutes");
+const notificationRoutes = require("./notifications/notificationRoutes");
+const reportRoutes = require("./moderation/reportRoutes");
+const moderatorRoutes = require("./moderation/moderatorRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 dotenv.config();
@@ -25,6 +30,11 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/finder", finderRoutes);
+app.use("/api/items", itemRoutes);
+app.use("/api/messages", messageRoutes);
+app.use("/api/notifications", notificationRoutes);
+app.use("/api/reports", reportRoutes);
+app.use("/api/moderator", moderatorRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
