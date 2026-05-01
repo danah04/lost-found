@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const { errorResponse } = require("../utils/apiResponse");
 
 const protect = async (req, res, next) => {
   try {
@@ -13,39 +14,29 @@ const protect = async (req, res, next) => {
     }
 
     if (!token) {
-      return res.status(401).json({
-        success: false,
-        message: "Not authorized, no token provided",
-      });
+      return errorResponse(res, 401, "Not authorized, no token");
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    req.user = await User.findById(decoded.id).select("-password");
+    const user = await User.findById(decoded.id).select("-password");
 
-    if (!req.user) {
-      return res.status(401).json({
-        success: false,
-        message: "User not found",
-      });
+    if (!user) {
+      return errorResponse(res, 401, "User not found");
     }
+
+    req.user = user;
 
     next();
   } catch (error) {
-    return res.status(401).json({
-      success: false,
-      message: "Not authorized, invalid token",
-    });
+    return errorResponse(res, 401, "Not authorized, token failed");
   }
 };
 
 const authorizeRoles = (...roles) => {
   return (req, res, next) => {
     if (!req.user || !roles.includes(req.user.role)) {
-      return res.status(403).json({
-        success: false,
-        message: "Access denied",
-      });
+      return errorResponse(res, 403, "Access denied");
     }
 
     next();
@@ -56,4 +47,3 @@ module.exports = {
   protect,
   authorizeRoles,
 };
-

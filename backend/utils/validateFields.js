@@ -1,11 +1,11 @@
-const validateRequiredFields = (body, requiredFields) => {
+const validateFields = (body, requiredFields) => {
   const missingFields = [];
 
   requiredFields.forEach((field) => {
     if (
       body[field] === undefined ||
       body[field] === null ||
-      body[field] === ""
+      body[field].toString().trim() === ""
     ) {
       missingFields.push(field);
     }
@@ -14,4 +14,4 @@ const validateRequiredFields = (body, requiredFields) => {
   return missingFields;
 };
 
-module.exports = validateRequiredFields;
+module.exports = validateFields;
