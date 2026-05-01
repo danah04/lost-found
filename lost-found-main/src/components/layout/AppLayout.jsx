@@ -1,1 +1,0 @@
-import Navbar from "./Navbar";import Sidebar from "./Sidebar";export default function AppLayout({role,children}){return <div className="app-shell"><Navbar/><div className="layout"><Sidebar role={role}/><main className="content">{children}</main></div></div>}
