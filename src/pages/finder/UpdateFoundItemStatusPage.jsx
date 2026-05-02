@@ -104,10 +104,10 @@ export default function UpdateFoundItemStatusPage() {
             </label>
 
             <select value={status} onChange={(e) => setStatus(e.target.value)}>
-              <option>Returned</option>
-              <option>Handed to Administration</option>
-              <option>Recovered</option>
-              <option>Needs Moderator Review</option>
+              <option value="returned">Returned</option>
+              <option value="matched">Matched</option>
+              <option value="archived">Archived</option>
+              <option value="pending">Pending Review</option>
             </select>
           </div>
 

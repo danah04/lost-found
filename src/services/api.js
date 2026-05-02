@@ -43,35 +43,35 @@ export const authAPI = {
 };
 
 export const foundItemsAPI = {
-  create: (formData) =>
-    request("/found-items", {
+  create: (itemData) =>
+    request("/finder/found-items", {
       method: "POST",
-      body: formData,
+      body: JSON.stringify(itemData),
     }),
 
   getAll: () =>
-    request("/found-items", {
+    request("/items/found", {
       method: "GET",
     }),
 
   getMine: () =>
-    request("/found-items/mine", {
+    request("/finder/my-found-items", {
       method: "GET",
     }),
 
   getById: (id) =>
-    request(`/found-items/${id}`, {
+    request(`/finder/found-items/${id}`, {
       method: "GET",
     }),
 
   updateStatus: (id, statusData) =>
-    request(`/found-items/${id}/status`, {
+    request(`/finder/found-items/${id}/status`, {
       method: "PATCH",
       body: JSON.stringify(statusData),
     }),
 
   delete: (id) =>
-    request(`/found-items/${id}`, {
+    request(`/finder/found-items/${id}`, {
       method: "DELETE",
     }),
 };

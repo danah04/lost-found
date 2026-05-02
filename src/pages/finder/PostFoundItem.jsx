@@ -85,7 +85,14 @@ export default function PostFoundItem() {
         formData.append("image", form.image);
       }
 
-      await foundItemsAPI.create(formData);
+      await foundItemsAPI.create({
+        title: form.title.trim(),
+        category: form.category,
+        description: form.description.trim(),
+        location: form.location,
+        dateFound: form.date,
+        image: form.image ? form.image.name : "",
+      });
 
       setOk(true);
       setForm(initial);
