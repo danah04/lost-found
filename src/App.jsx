@@ -71,7 +71,7 @@ export default function App() {
       <Route path="/moderator/pending-listings" element={<Guard roles={["moderator"]}><PendingListingsPage /></Guard>} />
       <Route path="/moderator/review/:id" element={<Guard roles={["moderator"]}><ListingReviewPage /></Guard>} />
       <Route path="/moderator/edit-listing/:id" element={<Guard roles={["moderator"]}><EditListingPage /></Guard>} />
-      <Route path="/moderator/archive-remove" element={<Guard roles={["moderator"]}><ArchiveRemovePage /></Guard>} />
+      <Route path="/moderator/archive-remove/:id" element={<Guard roles={["moderator"]}><ArchiveRemovePage /></Guard>} />
       <Route path="/moderator/reports" element={<Guard roles={["moderator"]}><ReportsPage /></Guard>} />
       <Route path="/moderator/verification" element={<Guard roles={["moderator"]}><VerificationPage /></Guard>} />
       <Route path="/moderator/return-confirmation" element={<Guard roles={["moderator"]}><ReturnConfirmationPage /></Guard>} />

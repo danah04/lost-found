@@ -69,14 +69,14 @@ export default function ActiveListingsPage() {
                       <div className="actions">
                         <Link
                           className="btn btn-secondary"
-                          to={`/moderator/listings/${listing._id}/edit`}
+                          to={`/moderator/edit-listing/${listing._id}`}
                         >
                           Edit
                         </Link>
 
                         <Link
                           className="btn btn-outline"
-                          to={`/moderator/listings/${listing._id}/archive-remove`}
+                          to={`/moderator/archive-remove/${listing._id}`}
                         >
                           Archive/Remove
                         </Link>

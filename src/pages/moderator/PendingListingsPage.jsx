@@ -70,7 +70,7 @@ export default function PendingListingsPage() {
                     <td>
                       <Link
                         className="btn btn-primary"
-                        to={`/moderator/listings/${listing._id}/review`}
+                        to={`/moderator/review/${listing._id}`}
                       >
                         Review
                       </Link>
