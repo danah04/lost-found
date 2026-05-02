@@ -34,6 +34,7 @@ import ReportsPage from "./pages/moderator/ReportsPage";
 import VerificationPage from "./pages/moderator/VerificationPage";
 import ReturnConfirmationPage from "./pages/moderator/ReturnConfirmationPage";
 import ActiveListingsPage from "./pages/moderator/ActiveListingsPage";
+import ModeratorNotificationsPage from "./pages/moderator/ModeratorNotificationsPage";
 
 function Guard({ roles, children }) {
   return <RoleRoute allowedRoles={roles}>{children}</RoleRoute>;
@@ -76,6 +77,8 @@ export default function App() {
       <Route path="/moderator/verification" element={<Guard roles={["moderator"]}><VerificationPage /></Guard>} />
       <Route path="/moderator/return-confirmation" element={<Guard roles={["moderator"]}><ReturnConfirmationPage /></Guard>} />
       <Route path="/moderator/active-listings" element={<Guard roles={["moderator"]}><ActiveListingsPage /></Guard>} />
+      <Route path="/moderator/notifications" element={<Guard roles={["moderator"]}> <ModeratorNotificationsPage /> </Guard>}/>
+      <Route path="/moderator/profile" element={ <Guard roles={["moderator"]}> <ProfilePage role="moderator" /> </Guard>}/>
 
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
