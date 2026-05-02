@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import AppLayout from "../../components/layout/AppLayout";
 import { notificationsAPI } from "../../services/api";
 
-export default function FinderNotificationsPage() {
+export default function ModeratorNotificationsPage() {
   const [items, setItems] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [status, setStatus] = useState("Loading notifications...");
@@ -41,12 +41,12 @@ export default function FinderNotificationsPage() {
   }, []);
 
   return (
-    <AppLayout role="finder">
+    <AppLayout role="moderator">
       <section className="page">
         <div className="page-header">
           <div>
             <h1>Notifications</h1>
-            <p>Approval updates, match alerts, status reminders, and messages.</p>
+            <p>Moderator alerts, listing updates, reports, claims, and return confirmations.</p>
             <p className="muted">Unread: {unreadCount}</p>
           </div>
 

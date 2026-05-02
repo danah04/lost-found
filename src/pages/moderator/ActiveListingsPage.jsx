@@ -1,2 +1,94 @@
-import { Link } from "react-router-dom";import AppLayout from "../../components/layout/AppLayout";import { foundItems,lostItems } from "../../data/mockData";
-export default function ActiveListingsPage(){const items=[...foundItems,...lostItems];return <AppLayout role="moderator"><section className="page"><div className="page-header"><div><h1>Active Listings</h1><p>Moderators can review, edit, archive, or remove current listings.</p></div><Link className="btn btn-primary" to="/moderator/archive-remove">Archive / Remove</Link></div><div className="responsive-grid">{items.map(i=><article className="card" key={i.id}><h2>{i.title}</h2><p className="muted">{i.category} - {i.location}</p><p>{i.description}</p><p><span className="badge info">{i.type}</span> <span className="badge warning">{i.status}</span></p><div className="actions"><Link className="btn btn-sm btn-outline" to={`/moderator/review/${i.id}`}>Review</Link><Link className="btn btn-sm btn-secondary" to={`/moderator/edit-listing/${i.id}`}>Edit</Link></div></article>)}</div></section></AppLayout>}
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import AppLayout from "../../components/layout/AppLayout";
+import { moderatorAPI } from "../../services/api";
+
+export default function ActiveListingsPage() {
+  const [listings, setListings] = useState([]);
+  const [status, setStatus] = useState("Loading active listings...");
+
+  async function loadListings() {
+    try {
+      const data = await moderatorAPI.activeListings();
+      setListings(data.listings || data.items || []);
+      setStatus("");
+    } catch (error) {
+      setStatus(error.message || "Could not load active listings.");
+    }
+  }
+
+  useEffect(() => {
+    loadListings();
+  }, []);
+
+  return (
+    <AppLayout role="moderator">
+      <section className="page">
+        <div className="page-header">
+          <div>
+            <h1>Active Listings</h1>
+            <p>View, edit, archive, or remove active listings.</p>
+          </div>
+
+          <button className="btn btn-secondary" onClick={loadListings}>
+            Refresh
+          </button>
+        </div>
+
+        {status && <p className="muted">{status}</p>}
+
+        {!status && listings.length === 0 && (
+          <div className="card">
+            <p className="muted">No active listings found.</p>
+          </div>
+        )}
+
+        {listings.length > 0 && (
+          <div className="card table-card">
+            <table>
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Location</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {listings.map((listing) => (
+                  <tr key={listing._id}>
+                    <td>{listing.title}</td>
+                    <td>{listing.category}</td>
+                    <td>{listing.location}</td>
+                    <td>
+                      <span className="badge success">{listing.status}</span>
+                    </td>
+                    <td>
+                      <div className="actions">
+                        <Link
+                          className="btn btn-secondary"
+                          to={`/moderator/edit-listing/${listing._id}`}
+                        >
+                          Edit
+                        </Link>
+
+                        <Link
+                          className="btn btn-outline"
+                          to={`/moderator/archive-remove/${listing._id}`}
+                        >
+                          Archive/Remove
+                        </Link>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
+    </AppLayout>
+  );
+}

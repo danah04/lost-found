@@ -112,15 +112,14 @@ export default function MyFoundItemsPage() {
                         </Link>
 
                         <select
-                          value={item.status || "Pending Review"}
+                          value={item.status || "pending"}
                           disabled={updatingId === id}
                           onChange={(e) => updateStatus(id, e.target.value)}
                         >
-                          <option>Pending Review</option>
-                          <option>Approved</option>
-                          <option>Returned</option>
-                          <option>Handed to Administration</option>
-                          <option>Recovered</option>
+                          <option value="pending">Pending Review</option>
+                          <option value="matched">Matched</option>
+                          <option value="returned">Returned</option>
+                          <option value="archived">Archived</option>
                         </select>
                       </td>
                     </tr>
