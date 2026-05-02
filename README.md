@@ -10,16 +10,79 @@ The project includes a React frontend and a Node.js/Express/MongoDB backend.
 
 ---
 
-## Tech Stack
+# Deployment
 
-### Frontend
+The application is deployed using:
+
+- **Frontend:** Vercel
+- **Backend:** Render
+- **Database:** MongoDB Atlas
+
+## Live URLs
+
+Frontend:
+
+```txt
+https://lost-found-liard.vercel.app
+```
+
+Backend:
+
+```txt
+https://lost-found-gc7h.onrender.com
+```
+
+## Demo Login Credentials
+
+Use these accounts to test the deployed application:
+
+| Role | Email | Password |
+|---|---|---|
+| Owner | `owner@kfupm.edu.sa` | `Password123` |
+| Finder | `finder@kfupm.edu.sa` | `Password123` |
+| Moderator | `moderator@kfupm.edu.sa` | `Password123` |
+
+If an account does not exist in the deployed database, create it using the backend `/api/auth/register` endpoint.
+
+## Production Environment Variables
+
+### Backend on Render
+
+```env
+PORT=5050
+MONGO_URI=<MongoDB Atlas connection string>
+JWT_SECRET=<JWT secret>
+NODE_ENV=production
+```
+
+### Frontend on Vercel
+
+```env
+VITE_API_BASE_URL=https://lost-found-gc7h.onrender.com/api
+```
+
+## Deployment Notes
+
+- The frontend is hosted on Vercel.
+- The backend is hosted on Render.
+- The database is hosted using MongoDB Atlas.
+- HTTPS is provided by both Vercel and Render.
+- The frontend communicates with the deployed backend using `VITE_API_BASE_URL`.
+- Sensitive values such as `MONGO_URI` and `JWT_SECRET` are stored as environment variables and are not committed to GitHub.
+- Render free tier services may sleep when inactive, so the first backend request can take a few seconds.
+
+---
+
+# Tech Stack
+
+## Frontend
 
 - React
 - Vite
 - React Router
 - CSS
 
-### Backend
+## Backend
 
 - Node.js
 - Express.js
@@ -32,7 +95,7 @@ The project includes a React frontend and a Node.js/Express/MongoDB backend.
 
 ---
 
-## Project Structure
+# Project Structure
 
 ```txt
 lost-found/
@@ -112,7 +175,7 @@ npm install
 npm run dev
 ```
 
-The frontend usually runs at:
+The local frontend usually runs at:
 
 ```txt
 http://localhost:5173
@@ -122,7 +185,7 @@ http://localhost:5173
 
 The frontend is connected to the backend authentication APIs.
 
-Users can register and log in using email, password, and role. The backend returns a JWT token, which is stored in `localStorage` and used for protected API requests.
+Users can log in using email and password. The backend returns a JWT token, which is stored in `localStorage` and used for protected API requests.
 
 Example test users:
 
@@ -131,8 +194,6 @@ Example test users:
 | Owner | `owner@kfupm.edu.sa` | `Password123` |
 | Finder | `finder@kfupm.edu.sa` | `Password123` |
 | Moderator | `moderator@kfupm.edu.sa` | `Password123` |
-
-If these users do not exist yet, register them through the app or by using the `/api/auth/register` endpoint.
 
 ## Frontend Important Files
 
@@ -208,7 +269,7 @@ Create a `.env` file inside `backend/`:
 touch .env
 ```
 
-Add this to `backend/.env`:
+Add this to `backend/.env` for local development:
 
 ```env
 PORT=5050
@@ -223,13 +284,13 @@ Run the backend:
 npm run dev
 ```
 
-The backend usually runs at:
+The local backend usually runs at:
 
 ```txt
 http://localhost:5050
 ```
 
-## Running the Full App
+## Running the Full App Locally
 
 Run the backend first:
 
@@ -246,7 +307,7 @@ npm install
 npm run dev
 ```
 
-Default URLs:
+Default local URLs:
 
 ```txt
 Frontend: http://localhost:5173
@@ -267,6 +328,7 @@ MONGO_URI=mongodb://127.0.0.1:27017/lost_found
 | `MONGO_URI` | MongoDB connection string |
 | `JWT_SECRET` | Secret used to sign JWT tokens |
 | `NODE_ENV` | Runtime environment |
+| `VITE_API_BASE_URL` | Frontend API base URL used by Vite |
 
 ## Backend Structure
 
@@ -704,6 +766,25 @@ The backend validates important inputs, including:
 
 ---
 
+# Deployment Testing Checklist
+
+The deployed app was tested for:
+
+- Backend health check on Render.
+- Frontend loading on Vercel.
+- Frontend calling the Render backend API.
+- MongoDB Atlas database connection.
+- Login for all roles.
+- Finder reporting found items.
+- Owner browsing found items.
+- Owner submitting claims.
+- Moderator dashboard and verification pages.
+- Notifications, messages, and profile pages.
+- Desktop responsiveness.
+- Mobile responsiveness.
+
+---
+
 # Manual Testing Checklist
 
 ## Owner
@@ -742,6 +823,14 @@ The backend validates important inputs, including:
 - Open return confirmation.
 - Open notifications.
 - Open profile.
+
+---
+
+# Known Limitations
+
+- Image upload currently stores the image filename only. It does not upload files to cloud storage.
+- Render free tier may sleep when inactive, so the first backend request can take a few seconds.
+- Demo accounts must exist in the deployed database before login. They can be created using the `/api/auth/register` endpoint.
 
 ---
 
@@ -799,7 +888,8 @@ Responsible for items, claims, reports, moderator workflows, route registration,
 - Do not commit `.env`.
 - Do not commit `node_modules`.
 - Use `backend/.env` for local backend configuration.
+- Store production environment variables in Render and Vercel.
 - Test backend endpoints with Postman or cURL.
 - Keep feature-specific files inside their assigned module folder when possible.
 - Use separate branches for each teammate’s work.
-- Run backend and frontend in separate terminals.
+- Run backend and frontend in separate terminals during local development.
