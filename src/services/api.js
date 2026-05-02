@@ -213,5 +213,12 @@ export const moderatorAPI = {
     }),
 };
 
-// Backward compatibility for old finder pages that import foundItemsAPI
-export const foundItemsAPI = finderAPI;
+export const foundItemsAPI = {
+  create: finderAPI.createFoundItem,
+  getAll: itemsAPI.browseFound,
+  getMine: finderAPI.getMine,
+  getById: finderAPI.getById,
+  updateStatus: finderAPI.updateStatus,
+  delete: finderAPI.delete,
+  suggestedMatches: finderAPI.suggestedMatches,
+};
