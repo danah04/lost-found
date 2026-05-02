@@ -1,2 +1,132 @@
-import { useState } from "react";import { useParams,Link } from "react-router-dom";import AppLayout from "../../components/layout/AppLayout";import { categories,locations,foundItems,lostItems,auditLogs } from "../../data/mockData";
-export default function EditListingPage(){const{id}=useParams();const source=[...foundItems,...lostItems].find(i=>i.id===id)||foundItems[0];const[item,setItem]=useState(source);const[ok,setOk]=useState(false);const[err,setErr]=useState("");function update(k,v){setItem({...item,[k]:v})}function save(e){e.preventDefault();if(!item.location){setErr("Location cannot be empty");return}setErr("");setOk(true)}return <AppLayout role="moderator"><section className="page"><div className="page-header"><div><h1>Edit Listing</h1><p>Correct small errors without changing case ownership.</p></div></div>{ok&&<div className="success-banner" style={{marginBottom:16}}>Listing updated successfully. Audit log updated.</div>}<form className="card form" onSubmit={save}><div className="form-grid"><div className="field"><label>Category</label><select value={item.category} onChange={e=>update("category",e.target.value)}>{categories.map(c=><option key={c}>{c}</option>)}</select></div><div className="field"><label>Location</label><select value={item.location} onChange={e=>update("location",e.target.value)}>{locations.map(l=><option key={l}>{l}</option>)}</select>{err&&<span className="error-text">{err}</span>}</div></div><div className="field"><label>Description</label><textarea value={item.description} onChange={e=>update("description",e.target.value)}/></div><div className="field"><label>Date</label><input type="date" value={item.date} onChange={e=>update("date",e.target.value)}/></div><div className="actions"><button className="btn btn-primary">Save Changes</button><Link className="btn btn-secondary" to="/moderator/pending-listings">Back</Link></div></form><div className="card"><h2>Audit Log</h2>{auditLogs.map(log=><p key={log} className="muted">- {log}</p>)}</div></section></AppLayout>}
+import { useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import AppLayout from "../../components/layout/AppLayout";
+import { categories, locations } from "../../data/mockData";
+import { moderatorAPI } from "../../services/api";
+
+export default function EditListingPage() {
+  const { id } = useParams();
+
+  const [form, setForm] = useState({
+    category: "",
+    location: "",
+    description: "",
+    time: "",
+  });
+
+  const [status, setStatus] = useState("");
+  const [isError, setIsError] = useState(false);
+
+  function update(field, value) {
+    setForm((current) => ({ ...current, [field]: value }));
+  }
+
+  async function submit(e) {
+    e.preventDefault();
+    setStatus("");
+    setIsError(false);
+
+    try {
+      const payload = {};
+
+      Object.entries(form).forEach(([key, value]) => {
+        if (value && value.trim()) {
+          payload[key] = value.trim();
+        }
+      });
+
+      if (Object.keys(payload).length === 0) {
+        setStatus("Enter at least one field to update.");
+        setIsError(true);
+        return;
+      }
+
+      await moderatorAPI.editListing(id, payload);
+
+      setStatus("Listing updated successfully.");
+      setIsError(false);
+      setForm({
+        category: "",
+        location: "",
+        description: "",
+        time: "",
+      });
+    } catch (error) {
+      setStatus(error.message || "Could not update listing.");
+      setIsError(true);
+    }
+  }
+
+  return (
+    <AppLayout role="moderator">
+      <section className="page">
+        <div className="page-header">
+          <div>
+            <h1>Edit Listing</h1>
+            <p>Correct listing details for better search accuracy.</p>
+          </div>
+        </div>
+
+        {status && (
+          <div className={isError ? "error-banner" : "success-banner"}>
+            {status}
+          </div>
+        )}
+
+        <form className="card form" onSubmit={submit}>
+          <div className="field">
+            <label>Category</label>
+            <select
+              value={form.category}
+              onChange={(e) => update("category", e.target.value)}
+            >
+              <option value="">Keep current category</option>
+              {categories.map((category) => (
+                <option key={category}>{category}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="field">
+            <label>Location</label>
+            <select
+              value={form.location}
+              onChange={(e) => update("location", e.target.value)}
+            >
+              <option value="">Keep current location</option>
+              {locations.map((location) => (
+                <option key={location}>{location}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="field">
+            <label>Description</label>
+            <textarea
+              value={form.description}
+              onChange={(e) => update("description", e.target.value)}
+              placeholder="Updated description"
+            />
+          </div>
+
+          <div className="field">
+            <label>Time</label>
+            <input
+              value={form.time}
+              onChange={(e) => update("time", e.target.value)}
+              placeholder="Example: 13:30"
+            />
+          </div>
+
+          <div className="actions">
+            <button className="btn btn-primary">Save Changes</button>
+
+            <Link className="btn btn-secondary" to="/moderator/active-listings">
+              Back
+            </Link>
+          </div>
+        </form>
+      </section>
+    </AppLayout>
+  );
+}

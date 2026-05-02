@@ -1,2 +1,86 @@
-import { useState } from "react";import { useParams,Link } from "react-router-dom";import AppLayout from "../../components/layout/AppLayout";import { foundItems,lostItems } from "../../data/mockData";
-export default function ListingReviewPage(){const{id}=useParams();const item=[...foundItems,...lostItems].find(i=>i.id===id)||foundItems[1];const[action,setAction]=useState("");const[reason,setReason]=useState("");return <AppLayout role="moderator"><section className="page"><div className="page-header"><div><h1>Listing Review</h1><p>Check required fields, image safety, and content quality.</p></div></div>{action&&<div className="success-banner" style={{marginBottom:16}}>Listing action completed: {action}. Audit log updated.</div>}<div className="grid grid-2"><div className="card"><h2>{item.title}</h2><p><strong>Category:</strong> {item.category}</p><p><strong>Date:</strong> {item.date}</p><p><strong>Location:</strong> {item.location}</p><p><strong>Description:</strong> {item.description}</p><p><span className="badge warning">{item.status}</span></p><div className="actions"><button className="btn btn-success" onClick={()=>setAction("Approved")}>Approve</button><button className="btn btn-danger" onClick={()=>setAction("Rejected")}>Reject</button><button className="btn btn-secondary" onClick={()=>setAction("Clarification Requested")}>Request Clarification</button><Link className="btn btn-outline" to={`/moderator/edit-listing/${item.id}`}>Edit Listing</Link></div></div><div className="card"><h2>Moderation Notes</h2><div className="field"><label>Rejection / clarification reason</label><textarea value={reason} onChange={e=>setReason(e.target.value)} placeholder="Missing photo, unclear location, inappropriate content, etc."/></div><div className="info-banner">Add a clear note when rejecting a listing or requesting clarification.</div></div></div></section></AppLayout>}
+import { useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import AppLayout from "../../components/layout/AppLayout";
+import { moderatorAPI } from "../../services/api";
+
+export default function ListingReviewPage() {
+  const { id } = useParams();
+
+  const [action, setAction] = useState("approve");
+  const [note, setNote] = useState("");
+  const [status, setStatus] = useState("");
+  const [isError, setIsError] = useState(false);
+
+  async function submit(e) {
+    e.preventDefault();
+    setStatus("");
+    setIsError(false);
+
+    if ((action === "reject" || action === "clarification") && !note.trim()) {
+      setStatus("A note is required for rejection or clarification.");
+      setIsError(true);
+      return;
+    }
+
+    try {
+      await moderatorAPI.reviewListing(id, {
+        action,
+        note: note.trim(),
+      });
+
+      setStatus("Listing review action saved successfully.");
+      setIsError(false);
+      setNote("");
+    } catch (error) {
+      setStatus(error.message || "Could not review listing.");
+      setIsError(true);
+    }
+  }
+
+  return (
+    <AppLayout role="moderator">
+      <section className="page">
+        <div className="page-header">
+          <div>
+            <h1>Listing Review</h1>
+            <p>Approve, reject, or request clarification for this listing.</p>
+          </div>
+        </div>
+
+        {status && (
+          <div className={isError ? "error-banner" : "success-banner"}>
+            {status}
+          </div>
+        )}
+
+        <form className="card form" onSubmit={submit}>
+          <div className="field">
+            <label>Action</label>
+            <select value={action} onChange={(e) => setAction(e.target.value)}>
+              <option value="approve">Approve</option>
+              <option value="reject">Reject</option>
+              <option value="clarification">Request Clarification</option>
+            </select>
+          </div>
+
+          <div className="field">
+            <label>Moderator Note</label>
+            <textarea
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              placeholder="Required for rejection or clarification."
+            />
+          </div>
+
+          <div className="actions">
+            <button className="btn btn-primary">Submit Review</button>
+
+            <Link className="btn btn-secondary" to="/moderator/pending-listings">
+              Back
+            </Link>
+          </div>
+        </form>
+      </section>
+    </AppLayout>
+  );
+}

@@ -1,2 +1,85 @@
-import { useState } from "react";import AppLayout from "../../components/layout/AppLayout";import { foundItems } from "../../data/mockData";
-export default function ArchiveRemovePage(){const[items,setItems]=useState(foundItems);const[reason,setReason]=useState("");function act(id,status){if(!reason.trim()){alert("A reason is required for archive/remove actions.");return}setItems(items.map(i=>i.id===id?{...i,status}:i))}return <AppLayout role="moderator"><section className="page"><div className="page-header"><div><h1>Archive / Remove Listings</h1><p>Hide outdated or inappropriate listings and record a reason.</p></div></div><div className="card field" style={{marginBottom:16}}><label>Reason for action <span className="required">*</span></label><input value={reason} onChange={e=>setReason(e.target.value)} placeholder="e.g., outdated, duplicate, inappropriate content"/></div><div className="table-wrap"><table><thead><tr><th>Title</th><th>Status</th><th>Location</th><th>Actions</th></tr></thead><tbody>{items.map(i=><tr key={i.id}><td>{i.title}</td><td><span className="badge warning">{i.status}</span></td><td>{i.location}</td><td className="actions"><button className="btn btn-sm btn-secondary" onClick={()=>act(i.id,"Archived")}>Archive</button><button className="btn btn-sm btn-danger" onClick={()=>act(i.id,"Removed")}>Remove</button></td></tr>)}</tbody></table></div></section></AppLayout>}
+import { useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import AppLayout from "../../components/layout/AppLayout";
+import { moderatorAPI } from "../../services/api";
+
+export default function ArchiveRemovePage() {
+  const { id } = useParams();
+
+  const [action, setAction] = useState("archive");
+  const [reason, setReason] = useState("");
+  const [status, setStatus] = useState("");
+  const [isError, setIsError] = useState(false);
+
+  async function submit(e) {
+    e.preventDefault();
+    setStatus("");
+    setIsError(false);
+
+    if (!reason.trim()) {
+      setStatus("Reason is required.");
+      setIsError(true);
+      return;
+    }
+
+    try {
+      await moderatorAPI.changeVisibility(id, {
+        action,
+        reason: reason.trim(),
+      });
+
+      setStatus(`Listing ${action === "archive" ? "archived" : "removed"} successfully.`);
+      setIsError(false);
+      setReason("");
+    } catch (error) {
+      setStatus(error.message || "Could not update listing visibility.");
+      setIsError(true);
+    }
+  }
+
+  return (
+    <AppLayout role="moderator">
+      <section className="page">
+        <div className="page-header">
+          <div>
+            <h1>Archive / Remove Listing</h1>
+            <p>Hide outdated or inappropriate listings from public results.</p>
+          </div>
+        </div>
+
+        {status && (
+          <div className={isError ? "error-banner" : "success-banner"}>
+            {status}
+          </div>
+        )}
+
+        <form className="card form" onSubmit={submit}>
+          <div className="field">
+            <label>Action</label>
+            <select value={action} onChange={(e) => setAction(e.target.value)}>
+              <option value="archive">Archive</option>
+              <option value="remove">Remove</option>
+            </select>
+          </div>
+
+          <div className="field">
+            <label>Reason</label>
+            <textarea
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              placeholder="Reason is required."
+            />
+          </div>
+
+          <div className="actions">
+            <button className="btn btn-primary">Confirm</button>
+
+            <Link className="btn btn-secondary" to="/moderator/active-listings">
+              Cancel
+            </Link>
+          </div>
+        </form>
+      </section>
+    </AppLayout>
+  );
+}
